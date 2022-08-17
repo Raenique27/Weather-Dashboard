@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Weather Dashboard</title>
+</head>
+
+<body class="flex-column min-100-vh">
+    <header class="hero">
+        <h1 class="title font-weight-bold">Weather Dashboard</h1>
+    </header>
+
+    <main class="row justify-space-between">
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <h2 class="card-title font-weight-bold">Search for a City:</h2>
+                <form id="search-form" class="card-body">
+                    <input name="search" id="search" type="text" class="form-input" placeholder="Search a city"/>
+                    <button type="submit" class="btn" id="searchBtn">Search</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-body" id="history">
+                    <button data-search="" class="btn" type="submit" id="savedCity"></button>
+                </div> 
+            </div>
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="card" id="searchedCity">
+                <h2 class="card-title text-left" id="city"></h2>
+                <p id="date"></p>
+               <img id="weatherIcon" alt="">
+                <p id="temp"></p>
+                <p id="humidity"></p>
+                <p id="windSpeed"></p>
+                <p id="UV-index"></p>
+            </div>
+
+            <h3 id="forcastHeader">5-Day Forcast:</h3>
+            <div id="forcast-5" class="forcast-5"></div>
+        </div>
+        <div>
+            <div class="row"></div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
