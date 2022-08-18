@@ -13,3 +13,5 @@ var uvIndex = document.querySelector("#UV-index");
 var forcast5 = document.querySelector("#forcast-5");
 var forcastHeader = document.querySelector("#forcastHeader");
 var cities = [];
+
+
