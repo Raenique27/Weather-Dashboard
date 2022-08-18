@@ -25,7 +25,32 @@ var getCity = function (city) {
                 response.json()
                     .then(function (data) {
                         console.log(data);
+                        
                     });
+            } else {
+                alert("Error: cannot find city.");
+            }
+        })
+
+        .catch(function (error) {
+            alert("Cannot connect to server.");
+        });
+};
+
+getCity();
+
+var weather = function (lat, long) {
+    var apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&appid=8a42d43f7d7dc180da5b1e51890e67dc`;
+
+    console.log(apiUrl);
+
+    fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+                response.json()
+                .then(function(data){
+                    console.log(data);
+                });
             } else {
                 alert("Error cannot find city.");
             }
@@ -36,4 +61,4 @@ var getCity = function (city) {
         });
 };
 
-getCity();
+weather();
