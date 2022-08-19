@@ -14,51 +14,57 @@ var forcast5 = document.querySelector("#forcast-5");
 var forcastHeader = document.querySelector("#forcastHeader");
 var cities = [];
 
-var getCity = function (city) {
-    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=f58e39647952b54bd204a6b841a3ed8d`;
-
-    console.log(apiUrl);
+var getCity = function(city) {
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=f58e39647952b54bd204a6b841a3ed8d";
 
     fetch(apiUrl)
         .then(function (response) {
-            if (response.ok) {
-                response.json()
-                    .then(function (data) {
-                        console.log(data);
-                        
-                    });
-            } else {
-                alert("Error: cannot find city.");
-            }
-        })
-
-        .catch(function (error) {
-            alert("Cannot connect to server.");
-        });
-};
-
-getCity();
-
-var weather = function (lat, long) {
-    var apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&appid=8a42d43f7d7dc180da5b1e51890e67dc`;
-
-    console.log(apiUrl);
-
-    fetch(apiUrl)
-        .then(function (response) {
-            if (response.ok) {
-                response.json()
-                .then(function(data){
+            return response.json()
+                .then(function (data) {
                     console.log(data);
                 });
-            } else {
-                alert("Error cannot find city.");
-            }
         })
 
         .catch(function (error) {
-            alert("Cannot connect to server.");
+            alert("Cannot connect to server");
         });
 };
 
-weather();
+var weather = function(lat, long) {
+    var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + long + "&appid=f58e39647952b54bd204a6b841a3ed8d";
+
+    fetch(weatherUrl)
+        .then(function (response) {
+            return response.json()
+                .then(function (data) {
+                    console.log(data);
+                });
+        })
+
+        .catch(function (error) {
+            alert("Cannot connect to server");
+        });
+};
+
+var formSearchHandler = function(event) {
+    event.preventDefault();
+
+    var city = search.value.trim();
+
+    if (city) {
+        getCity(city);
+        search.value = "";
+    } else {
+        alert("Please enter city name!");
+    }
+};
+
+var displayForcast = function (data) {
+    
+}
+
+
+
+
+
+searchBtn.addEventListener("click", formSearchHandler);
