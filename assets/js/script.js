@@ -14,7 +14,6 @@ var forcast5 = document.querySelector("#forcast-5");
 var forcastHeader = document.querySelector("#forcastHeader");
 var cities = [];
 
-
 var getCity = function (city) {
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=8a42d43f7d7dc180da5b1e51890e67dc";
 
@@ -74,6 +73,15 @@ var formSearchHandler = function (event) {
      humidity.textContent = ` Humidity: ${data.current.humidity}%`;
      windSpeed.textContent = ` Windspeed: ${data.current.wind_speed} mph`;
      uvIndex.textContent = ` UV Index: ${data.current.uvi}`;
+
+     if (data.value <= 4) {
+        uvIndex.setAttribute("class", "badge badge-success");
+     } else if (data.value <= 8) {
+        uvIndex.setAttribute("class", "badge badge-warning");
+     } else {
+        uvIndex.setAttribute("class", "badge badge-danger");
+     }
+     
  };
 
 
