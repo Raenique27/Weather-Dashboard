@@ -21,7 +21,7 @@ var getCity = function(city) {
         .then(function (response) {
             return response.json()
                 .then(function (data) {
-                    console.log(data);
+                   console.log(data); 
                 });
         })
 
@@ -60,9 +60,19 @@ var formSearchHandler = function(event) {
 };
 
 var displayForcast = function (data) {
+    console.log(data);
+
+    // clear old content
+    forcast5.textContent = "";
+    
+    var date = new Date(data.dt *1000);
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    cityName.innerHTML = data.name + "(" + month + "/" + day + "/" + year + ")";
+
     
 }
-
 
 
 
