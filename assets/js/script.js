@@ -14,6 +14,14 @@ var forcast5 = document.querySelector("#forcast-5");
 var forcastHeader = document.querySelector("#forcastHeader");
 var cities = [];
 
+
+var savedCities = function (city) {
+    cities = JSON.parse(localStorage.getItem("search-history")) || [];
+    cities.push(city);
+    localStorage.setItem(searchHistory, JSON.stringify(cities));
+};
+
+
 var getCity = function (city) {
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=8a42d43f7d7dc180da5b1e51890e67dc";
 
@@ -62,30 +70,30 @@ var formSearchHandler = function (event) {
     }
 };
 
- var displayCurrentWeather = function (data) {
-     console.log(data);
+var displayCurrentWeather = function (data) {
+    console.log(data);
 
-     // clear old content
-     forcast5.textContent = "";
+    // clear old content
+    forcast5.textContent = "";
 
-     weatherIcon.setAttribute("src","http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png");
-     weatherIcon.setAttribute("alt", data.current.weather[0].description);
-     temp.textContent = ` Temperature: ${data.current.temp}°F`;
-     humidity.textContent = ` Humidity: ${data.current.humidity}%`;
-     windSpeed.textContent = ` Windspeed: ${data.current.wind_speed} mph`;
-     uvIndex.textContent = ` UV Index: ${data.current.uvi}`;
+    weatherIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png");
+    weatherIcon.setAttribute("alt", data.current.weather[0].description);
+    temp.textContent = ` Temperature: ${data.current.temp}°F`;
+    humidity.textContent = ` Humidity: ${data.current.humidity}%`;
+    windSpeed.textContent = ` Windspeed: ${data.current.wind_speed} mph`;
+    uvIndex.textContent = ` UV Index: ${data.current.uvi}`;
 
-     if (data.current.uvi <= 4) {
+    if (data.current.uvi <= 4) {
         uvIndex.setAttribute("class", "badge badge-success");
-     } else if (data.current.uvi <= 8) {
+    } else if (data.current.uvi <= 8) {
         uvIndex.setAttribute("class", "badge badge-warning");
-     } else {
+    } else {
         uvIndex.setAttribute("class", "badge badge-danger");
-     }
+    }
 
-     forcastHeader.textContent = "5-Day Forcast:";
+    forcastHeader.textContent = "5-Day Forcast:";
 
-     for (var i=1; i < 6; i++) {
+    for (var i = 1; i < 6; i++) {
         var date = new Date(data.daily[i].dt * 1000);
         var day = date.getDate();
         var month = date.getMonth() + 1;
@@ -95,14 +103,14 @@ var formSearchHandler = function (event) {
         forcastDate.setAttribute("class", "mt-3 mb-0 forcastDate");
         forcastDate.innerHTML = month + "/" + day + "/" + year;
 
-         var forcastDay = document.createElement("div");
-         var forcastIcon = document.createElement("img");
-         forcastIcon.setAttribute("class", "forcastImg");
-         var forcastTemp = document.createElement("p");
-         var forcastWind = document.createElement("p");
-         var forcastHumid = document.createElement("p");
+        var forcastDay = document.createElement("div");
+        var forcastIcon = document.createElement("img");
+        forcastIcon.setAttribute("class", "forcastImg");
+        var forcastTemp = document.createElement("p");
+        var forcastWind = document.createElement("p");
+        var forcastHumid = document.createElement("p");
 
-        forcastIcon.setAttribute("src","http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png");
+        forcastIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png");
         forcastIcon.setAttribute("alt", data.daily[i].weather[0].description);
         forcastTemp.textContent = `Temp: ${data.daily[i].temp.day} °F`;
         forcastWind.textContent = `Windspeed: ${data.daily[i].wind_speed} mph`;
@@ -116,8 +124,24 @@ var formSearchHandler = function (event) {
         forcastDay.appendChild(forcastWind);
         forcastDay.appendChild(forcastHumid);
         forcast5.appendChild(forcastDay);
-     }
- };
+    }
+};
+
+var displayCities = function () {
+    var storeCities = JSON.parse(localStorage.getItem("search-history"));
+
+    searchHistory.textContent = "";
+
+    for (var i = 0; i < storeCities.length; i++) {
+        savedCityBtn.textContent = storeCities[i];
+        savedCityBtn.setAttribute = (storeCities[i]);
+        savedCityBtn.setAttribute = ("class", "btn btn-secondary btn-block p-2");
+
+        searchHistory.appendChild(savedCityBtn);
+    }
+};
+
+$(document).ready(displayCities);
 
 
 
