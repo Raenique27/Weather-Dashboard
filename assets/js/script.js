@@ -43,6 +43,7 @@ var weather = function (data) {
             return response.json();
         })
         .then(function (data) {
+
             displayCurrentWeather(data);
         })
 
@@ -74,14 +75,40 @@ var formSearchHandler = function (event) {
      windSpeed.textContent = ` Windspeed: ${data.current.wind_speed} mph`;
      uvIndex.textContent = ` UV Index: ${data.current.uvi}`;
 
-     if (data.value <= 4) {
+     if (data.current.uvi <= 4) {
         uvIndex.setAttribute("class", "badge badge-success");
-     } else if (data.value <= 8) {
+     } else if (data.current.uvi <= 8) {
         uvIndex.setAttribute("class", "badge badge-warning");
      } else {
         uvIndex.setAttribute("class", "badge badge-danger");
      }
-     
+
+     forcastHeader.textContent = "5-Day Forcast:";
+
+     for (var i=0; i < 6; i++) {
+        var date = new Date(data.daily[i].dt * 1000);
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        var forcastDate = document.createElement("p");
+        forcastDate.setAttribute("class", "mt-3 mb-0 forcast-date");
+        forcastDate.innerHTML = month + "/" + day + "/" + year;
+
+         var forcastDay = document.createElement("div");
+         var forcastIcon = document.createElement("img");
+         var forcastTemp = document.createElement("p");
+         var forcastWind = document.createElement("p");
+         var forcastHumid = document.createElement("p");
+
+        forcastIcon.setAttribute("src","http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png");
+        forcastIcon.setAttribute("alt", data.daily[i].weather[0].description);
+        forcastTemp.textContent = `Temp: ${data.daily[i].temp} °F`;
+        forcastWind.textContent = `Windspeed: ${data.daily[i].wind_speed} mph`;
+        forcastHumid.textContent = `Humidity: ${data.daily[i].humidity}%`;
+
+        
+     }
  };
 
 
