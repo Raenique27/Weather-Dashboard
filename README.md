@@ -4,9 +4,9 @@
 A weather dashboard that allows users to search different cities and get the current weather for that specific day as well as the weather for the next 5 days. It will display city name, date, temperature, humidity, wind speed, and UV. The UV will change colors depending on whether the conditions are favorable, moderate, or severe.
 
 # Technologies Used
-OpenWeather API
-Bootstrap
-Jquery
+- OpenWeather API
+- Bootstrap
+- Jquery
 
 
 # Application 
