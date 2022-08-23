@@ -15,15 +15,16 @@ var forcastHeader = document.querySelector("#forcastHeader");
 var cities = [];
 
 
-var savedCities = function (city) {
-    cities = JSON.parse(localStorage.getItem("search-history")) || [];
+var saveCities = function (city) {
+    cities = JSON.parse(localStorage.getItem("searched")) || [];
     cities.push(city);
-    localStorage.setItem(searchHistory, JSON.stringify(cities));
+    localStorage.setItem("searched", JSON.stringify(cities));
+
+
 };
 
-
 var getCity = function (city) {
-    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=8a42d43f7d7dc180da5b1e51890e67dc";
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=84b79da5e5d7c92085660485702f4ce8";
 
     fetch(apiUrl)
         .then(function (response) {
@@ -44,7 +45,7 @@ var getCity = function (city) {
 };
 
 var weather = function (data) {
-    var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&appid=8a42d43f7d7dc180da5b1e51890e67dc";
+    var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&appid=84b79da5e5d7c92085660485702f4ce8&units=imperial";
 
     fetch(weatherUrl)
         .then(function (response) {
@@ -55,7 +56,7 @@ var weather = function (data) {
             displayCurrentWeather(data);
         })
 
-}
+};
 
 var formSearchHandler = function (event) {
     event.preventDefault();
@@ -68,6 +69,10 @@ var formSearchHandler = function (event) {
     } else {
         alert("Please enter city name!");
     }
+
+    saveCities(city);
+    displayCities();
+
 };
 
 var displayCurrentWeather = function (data) {
@@ -78,10 +83,10 @@ var displayCurrentWeather = function (data) {
 
     weatherIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png");
     weatherIcon.setAttribute("alt", data.current.weather[0].description);
-    temp.textContent = ` Temperature: ${data.current.temp}°F`;
-    humidity.textContent = ` Humidity: ${data.current.humidity}%`;
-    windSpeed.textContent = ` Windspeed: ${data.current.wind_speed} mph`;
-    uvIndex.textContent = ` UV Index: ${data.current.uvi}`;
+    temp.textContent = "Temp: " + (data.current.temp) + "°F";
+    humidity.textContent = "Humidity: " + data.current.humidity + "%";
+    windSpeed.textContent = "Windspeed: " + data.current.wind_speed + "mph";
+    uvIndex.textContent = "UV Index: " + data.current.uvi;
 
     if (data.current.uvi <= 4) {
         uvIndex.setAttribute("class", "badge badge-success");
@@ -112,9 +117,9 @@ var displayCurrentWeather = function (data) {
 
         forcastIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png");
         forcastIcon.setAttribute("alt", data.daily[i].weather[0].description);
-        forcastTemp.textContent = `Temp: ${data.daily[i].temp.day} °F`;
-        forcastWind.textContent = `Windspeed: ${data.daily[i].wind_speed} mph`;
-        forcastHumid.textContent = `Humidity: ${data.daily[i].humidity}%`;
+        forcastTemp.textContent = "Temp: " + (data.daily[i].temp.day) + "°F";
+        forcastWind.textContent = "Windspeed: " + data.daily[i].wind_speed + "mph";
+        forcastHumid.textContent = "Humidity: " + data.daily[i].humidity + "%";
 
         forcastDay.setAttribute("class", "daysForcast");
 
@@ -128,21 +133,29 @@ var displayCurrentWeather = function (data) {
 };
 
 var displayCities = function () {
-    var storeCities = JSON.parse(localStorage.getItem("search-history"));
+    var savedCities = JSON.parse(localStorage.getItem("searched"));
 
     searchHistory.textContent = "";
 
-    for (var i = 0; i < storeCities.length; i++) {
-        savedCityBtn.textContent = storeCities[i];
-        savedCityBtn.setAttribute = (storeCities[i]);
-        savedCityBtn.setAttribute = ("class", "btn btn-secondary btn-block p-2");
-
+    for (var i = 0; i < savedCities.length; i++) {
+        var savedCityBtn = document.createElement("button");
+        savedCityBtn.textContent = savedCities[i];
+        savedCityBtn.setAttribute("data-search", savedCities[i]);
+        savedCityBtn.setAttribute("class", "btn btn-secondary btn-block p-3");
+        savedCityBtn.setAttribute("type", "submit");
+        savedCityBtn.setAttribute("id", "savedCityBtn");
         searchHistory.appendChild(savedCityBtn);
     }
+
 };
 
 $(document).ready(displayCities);
 
+document.querySelector("#history").addEventListener("click", function (event) {
+    event.preventDefault();
+    var city = event.target.dataset.search;
+    getCity(city);
+});
 
 
 searchBtn.addEventListener("click", formSearchHandler);
