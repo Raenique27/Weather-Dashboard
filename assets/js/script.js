@@ -141,7 +141,7 @@ var displayCities = function () {
         var savedCityBtn = document.createElement("button");
         savedCityBtn.textContent = savedCities[i];
         savedCityBtn.setAttribute("data-search", savedCities[i]);
-        savedCityBtn.setAttribute("class", "btn btn-secondary btn-block p-3");
+        savedCityBtn.setAttribute("class", "btn btn-secondary btn-block p-2");
         savedCityBtn.setAttribute("type", "submit");
         savedCityBtn.setAttribute("id", "savedCityBtn");
         searchHistory.appendChild(savedCityBtn);
